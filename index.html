@@ -61,7 +61,7 @@
           <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column justify-content-center mxaaut" data-widget="treeview" role="menu">
   
               <li class="nav-item mx-auto" style=" width:70%!important;">
-                <a href="" class="nav-link nav-link-r">
+                <a href="" class="nav-link nav-link-r" onclick="includeHTML('parent')">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                     Dashboard
@@ -86,7 +86,7 @@
 
               <li class="nav-item mx-auto" style=" width:70%!important;">
   
-                <a href="#" class="nav-link nav-link-r">
+                <a href="#" class="nav-link nav-link-r" onclick="includeHTML('settings.html')">
                   <i class="nav-icon fas fa-cog"></i>
                   <p>
                     Setting
@@ -527,6 +527,9 @@
            break;
           case "settings.html":
             window.content = new SettingsFactory;
+            setTimeout(function(){
+              $('.main-header').css('width','100%');
+            },100)
             break;
           case "parent":
             window.parentLayout.setFreeze(false);
@@ -539,7 +542,7 @@
             
             break;
           }
-        
+       
         $('#main').empty();
         
         $("#main").load(file)

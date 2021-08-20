@@ -69,6 +69,13 @@
             color:grey;
             font-size: 20px;
         }
+        .border-gradient {
+            border-top: double 20px transparent!important;
+            padding: 0!important;
+           border-radius: 20px!important;
+           background-image: linear-gradient(#302D2E, #302D2E), radial-gradient(circle at top left, #00CEAA 34%,#86D4F2 34%)!important;
+           background-origin: border-box!important;
+            background-clip: content-box, border-box!important;}
         #params1 {
             border-top: 20px solid #00CEAA;
             border-radius: 15px;
@@ -86,6 +93,7 @@
             width: 620px;
             max-width: 620px;
             margin:10px;min-width: 620px;
+            
         }
         .nameBox2 {
         
@@ -231,6 +239,10 @@
                     z-index: 9999;
                     display: none;
                 }
+                .tab-content {
+                    
+                    border-radius: 20px;
+                }
     </style>
 </head>
 <body style="background-color: #1c1c1c;">
@@ -254,7 +266,7 @@
         </div>
       </div>
     <div style="background-color: #1c1c1c;color:white;width: 121%;padding-left:20px">
-        <div class="d-flex justify-content-between ">
+        <div class="d-flex justify-content-between mt-2">
             
                 <div class="switch_box box_1">
                     <input type="checkbox" class="switch_1">&nbsp;&nbsp;&nbsp;&nbsp;Set for both
@@ -268,7 +280,7 @@
     </div>
     <div class="d-flex justify-content-center" style="width: 121%;">
         <div class="row">
-            <div class="col-6">
+            <div class="col-6 params1">
                 <div id="params1">
                     <nav class="main-header navbar navbar-expand navbar-white navbar-light d-flex justify-content-start " style="background-color: #302D2E;margin-left:0px;border: none!important;">
                         <!-- Left navbar links -->
@@ -580,10 +592,14 @@
         function HideBox(){
             $('.nameBox').text('Calibration Box #1 & Box #2')
             $('.params2').hide();
+            $('#params1').attr("class",'border-gradient')
+            $('.tab-content').attr('style',"padding:8\\px!important")
         }
         function ShowBox(){
             $('.nameBox').text('Calibration Box #1')
             $('.params2').show();
+            $('#params1').attr("class",'')
+            $('.tab-content').attr('style',"padding:0px!important")
         }
         $('.switch_1').click(function(){
             
@@ -692,9 +708,15 @@
         })
         $('#finishBox1').click(function(){
             $('#block-box1').css('display','none');
+            window.CallService(connection,"automation","trigger",{
+                entity_id: "automation.timetrigger"
+            })
         })
         $('#finishBox2').click(function(){
             $('#block-box2').css('display','none');
+            window.CallService(connection,"automation","trigger",{
+                entity_id: "automation.timetrigger"
+            })
         })
         $('#startBox1').click(function(){
             if($('#active').text()==""){
@@ -710,7 +732,7 @@
                 data['humidity']=$('.humidityBox1').val(),
                 data['time'] = $('#active').text()
             }
-            //(i%2!=0) ? setBoth(data) : setBox(data,"box1");
+            (i%2!=0) ? setBoth(data) : setBox(data,"box1");
         })
         $('#startBox2').click(function(){
             if($('#active2').text()==""){
@@ -725,7 +747,7 @@
                 data['temp']=$('.tempBox1').val(),
                 data['humidity']=$('.humidityBox1').val(),
                 data['time'] = $('#active').text()
-            //setBox(data,"box2");
+            setBox(data,"box2");
             }
         })
     </script>

@@ -86,6 +86,15 @@
     .row {
       padding: 20px;
     }
+    .bar2 {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100px; height: 100px; /* full circle! */
+      border-radius: 50%;
+      box-sizing: border-box;
+      border: 10px solid grey;     /* half gray, */
+      border-bottom-color: #86D4F2!important;  /* half azure */
+    }
     .bar{
       position: absolute;
       top: 0; left: 0;
@@ -640,7 +649,7 @@
                             <h2 class="tempProcentBox2">25°C</h2>
                             <div class="progressCustom mt-5 tempBox2">
                               <div class="barOverflow">
-                                <div class="bar"></div>
+                                <div class="bar2"></div>
                               </div>
                               <img src="images/temperature2.png" alt="" width="25" height="50" class="barLogo">
                               <span id="temp2" style="display: none;"></span>
@@ -659,7 +668,7 @@
                             <h2 class="humidityProcentBox2">47 %</h2>
                             <div class="progressCustom mt-5 humidityBox2">
                               <div class="barOverflow">
-                                <div class="bar"></div>
+                                <div class="bar2"></div>
                               </div>
                               <img src="images/humidity2.png" alt="" width="40" height="50" class="barLogo">
                               <span id="humidity2"style="display: none;"></span>
@@ -734,7 +743,7 @@
                             </div>
                             <div class="progressCustom  tempBox2">
                               <div class="barOverflow" style="width:130px; height: 100px;">
-                                <div class="bar" style="width: 130px; height:130px;border:12px solid grey;"></div>
+                                <div class="bar2" style="width: 130px; height:130px;border:12px solid grey;"></div>
                               </div>
                               <img src="images/temperature2.png" alt="" width="25" height="50" class="barLogo">
                               <span id="temp2" style="display: none;">24</span>
@@ -756,7 +765,7 @@
                         
                             <div class="progressCustom  humidityBox2">
                               <div class="barOverflow" style="width:130px; height: 100px;">
-                                <div class="bar" style="width: 130px; height:130px;border:12px solid grey;"></div>
+                                <div class="bar2" style="width: 130px; height:130px;border:12px solid grey;"></div>
                               </div>
                               <img src="images/humidity2.png" alt="" width="40" height="50" class="barLogo">
                               <span id="humidity2"style="display: none;">24</span>
@@ -819,7 +828,7 @@
       
       function setCircleProgressbar(progressbar,val){
         
-  
+
           var $bar = $(progressbar).find(".bar");
           $bar.css({"border-color":"grey"})
           var $val = val;
@@ -930,12 +939,14 @@
         function setCircleProgressbarBox2(progressbar,val){
           
     
-            var $bar = $(progressbar).find(".bar");
+            var $bar = $(progressbar).find(".bar2");
             $bar.css({"border-color":"grey"})
+           
             var $val = val;
             var perc = parseInt( val, 10);
             if(parseInt(val)>13){
               $bar.css({"border-right-color": '#86D4F2'})
+              
             }
             if(parseInt(val)>90){
               $bar.css({"border-color": '#86D4F2'})
@@ -957,7 +968,7 @@
           val = parseInt(val);
           $('.humidityProcentBox2').text(val+'%');
         
-          setCircleProgressbar(".humidityBox2",val);
+          setCircleProgressbarBox2(".humidityBox2",val);
         }
         function setTempBox2(val){
           val = parseInt(val);
@@ -965,7 +976,7 @@
          
          
           
-          setCircleProgressbar(".tempBox2",val*2.5);
+          setCircleProgressbarBox2(".tempBox2",val*2.5);
         }
         function setCO2Box2(value){
             ppm = value/9000*100
