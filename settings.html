@@ -243,6 +243,12 @@
                     
                     border-radius: 20px;
                 }
+                .timerbox1 , .timerbox2 {
+                    width: 150px;
+                    display: flex;
+                    font-size: 30px;
+                    color: white;
+                }
     </style>
 </head>
 <body style="background-color: #1c1c1c;">
@@ -391,9 +397,17 @@
                         </div>
                         <div class="grey-box" id="block-box1"></div>
                         <hr style="background-color: black; width:100%;height:3px;">
-                        <div class="d-flex justify-content-end">
-                           <button class="btnControl" id="finishBox1">Finish</button>
-                           <button class="btnControl" id="startBox1">Start</button> 
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="timer_box1">
+ 
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btnControl" id='finishBox1'>Finish</button>
+                                <button class="btnControl" id="startBox1">Start</button> 
+                            </div>
+                           
                         </div>
                     </div>
                 </div>
@@ -508,9 +522,17 @@
                         </div>
                         <div class="grey-box" id="block-box2"></div>
                         <hr style="background-color: black; width:100%;height:3px;">
-                        <div class="d-flex justify-content-end">
-                           <button class="btnControl" id='finishBox2'>Finish</button>
-                           <button class="btnControl" id="startBox2">Start</button> 
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="timer_box2">
+ 
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btnControl" id='finishBox2'>Finish</button>
+                                <button class="btnControl" id="startBox2">Start</button> 
+                            </div>
+                           
                         </div>
                     </div>
                 </div>
@@ -521,8 +543,9 @@
     </div>
     </div>
 
-
+    
     <script src="assets/jquery.min.js"></script>
+    <script src="js/jquery.simple.timer.js"></script>
     <script src="assets/bootstrap.min.js"></script>
     <script src="assets/admin.min.js"></script>
     <script src="assets/scriptd.js"></script>
@@ -688,7 +711,7 @@
             //Using Time Triggers
             minutes = data['time'];
             min=minutes.replace(" min",'')
-
+            startTimer(min,box);
             window.CallService(connection,"automation","turn_on",{
                 entity_id: "automation.timetrigger"
             }).then(()=>{
@@ -730,9 +753,12 @@
                 data['o2'] = $('.o2Box1').val(),
                 data['temp']=$('.tempBox1').val(),
                 data['humidity']=$('.humidityBox1').val(),
-                data['time'] = $('#active').text()
+                data['time'] = $('#active').text();
+                
+                
+                (i%2!=0) ? setBoth(data) : setBox(data,"box1");
             }
-            (i%2!=0) ? setBoth(data) : setBox(data,"box1");
+            
         })
         $('#startBox2').click(function(){
             if($('#active2').text()==""){
@@ -747,9 +773,28 @@
                 data['temp']=$('.tempBox1').val(),
                 data['humidity']=$('.humidityBox1').val(),
                 data['time'] = $('#active').text()
-            setBox(data,"box2");
+                setBox(data,"box2");
             }
         })
+        function destroyTimer(box){
+            $('.timer_'+box).empty()
+        }
+        function startTimer(minutes,box){ //pass time from HA and eval time difference 
+            destroyTimer(box);
+            $('.timer_'+box).append("<div class ='timer"+box+"'></div>");
+            
+            let seconds = minutes * 60;
+            $('.timer'+box).attr('data-seconds-left',seconds);
+            
+            $(function(){
+                $('.timer'+box).startTimer({
+                        onComplete: function(){
+                        console.log('Complete');
+                    },
+                    allowPause: false
+                });
+            });
+        }
     </script>
 </body>
 </html>
